@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import clsx from "clsx";
 
@@ -12,6 +12,21 @@ export default function Register() {
   //Here are the states for loading waiting and mode switching.
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(true);
+
+  useEffect(()=>{
+    const userMode=JSON.parse(localStorage.getItem("mode"));
+    if(userMode){
+      if(userMode==="light"){
+        setMode(true);
+      }
+      else{
+        setMode(false);
+      }
+    }
+    else{
+      localStorage.setItem("mode",JSON.stringify("light"));
+    }
+  },[]);
 
   //Here, the formic hook and the form that will appear on the screen are linked to the formic hook.
   const { handleSubmit, handleChange, values, errors } = useFormik({
@@ -41,10 +56,12 @@ export default function Register() {
   return (
     <div className="container">
       {/*Here, the left part that will appear on the register screen comes from the Info component.*/}
-      <Info mode={mode} />
+      <div className="leftContainer" mode={mode ? "light":"dark"}>
+        <Info mode={mode} />
+      </div>
       {/*Here is the registration form part that will appear on the registration screen.*/}
-      <div className="formContainer" mode={mode ? "light" : "dark"}>
-        <div className="form">
+      <div className="rightContainer" mode={mode ? "light" : "dark"}>
+        <div className="form" mode={mode ? "light" : "dark"}>
           <h3 className="title">
             <strong mode={mode ? "light" : "dark"}>Kayıt</strong>
           </h3>
@@ -169,7 +186,7 @@ export default function Register() {
                   Sözleşmeyi kabul ediyorum
                 </label>
               </div>
-              <span>{errors.agreement}</span>
+              {errors.agreement && <span>{errors.agreement}</span>}
             </div>
 
             <div className="formGroup formButton">
@@ -191,6 +208,7 @@ export default function Register() {
           className="header"
           onClick={() => {
             setMode((prev) => !prev);
+            localStorage.setItem("mode",JSON.stringify(mode ? "dark":"light"));
           }}
         >
           <div className="mode">

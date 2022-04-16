@@ -8,7 +8,9 @@ import LargeShapeIcon from './../constants/LargeShape';
 export default function Info({mode}) {
   return (
     <div className="infoContainer" mode={mode ? "light":"dark"}>
-        <LogoIcon width="250" height="105" color="#444AFF"/>
+        <div className="logo">
+            <LogoIcon width="250" height="105" color="#444AFF"/>
+        </div>
         <span mode={mode ? "light":"dark"}>YAZILIM PATİKALARI</span>
         <p mode={mode ? "light":"dark"}> Bootcamp'ler teknoloji kariyerine girmek isteyenler için yeni bir eğitim modelidir.
             Ekibini büyütmek isteyen şirketler bir bootcamp'lere sponsor olurlar. Teknik beceriler
